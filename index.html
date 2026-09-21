@@ -45,6 +45,24 @@ body{overflow-x:hidden;background:radial-gradient(circle at 50% 10%,#fff8ce 0,#f
 .spark{position:absolute;font-size:24px;animation:float 5s ease-in-out infinite;z-index:3}
 .s1{left:7%;top:35%}.s2{right:8%;top:43%;animation-delay:1.4s}.s3{left:14%;bottom:16%;animation-delay:2.2s}
 @keyframes float{50%{transform:translateY(-18px) rotate(8deg)}}
+.gallery{position:relative;padding:56px 16px 72px;display:grid;place-items:center;background:linear-gradient(180deg,#e9a936 0,#f3c45a 40%,#ffe89a 100%)}
+.gallery h2{margin:0 0 6px;font-family:Caveat,cursive;font-size:clamp(34px,8vw,52px);color:#fffdf2;text-shadow:0 3px 12px #4b2b1466;text-align:center}
+.gallery .g-sub{margin:0 0 26px;color:#fff;text-shadow:0 2px 8px #3b2417;font-size:clamp(14px,3.6vw,18px);text-align:center}
+.slider{position:relative;width:min(640px,94vw);border-radius:18px;background:var(--cream);padding:12px 12px 14px;box-shadow:0 24px 40px #3d1e0b44,inset 0 0 0 2px #ffffffaa;touch-action:pan-y}
+.viewport{position:relative;overflow:hidden;border-radius:12px;aspect-ratio:4/5;background:#f1d09a}
+.track{display:flex;height:100%;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.slide{min-width:100%;height:100%;position:relative;display:grid;place-items:center;background:linear-gradient(145deg,#fff5d7,#f1d09a)}
+.slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.slide .ph{font-family:Caveat,cursive;font-size:26px;color:#8c5711;text-align:center;padding:20px;line-height:1.1}
+.slide .ph b{display:block;font-size:64px;font-weight:400;margin-bottom:6px}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:44px;height:44px;border:0;border-radius:50%;background:#fff8e7ee;color:#8c5711;font-size:22px;cursor:pointer;box-shadow:0 4px 12px #4b2b1444;display:grid;place-items:center;transition:transform .2s,background .2s}
+.arrow:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
+.arrow:focus-visible,.dot:focus-visible{outline:3px solid #8c5711;outline-offset:2px}
+.prev{left:22px}.next{right:22px}
+.dots{display:flex;justify-content:center;gap:10px;margin-top:14px}
+.dot{width:12px;height:12px;padding:0;border:0;border-radius:50%;background:#e2b565;cursor:pointer;transition:.3s}
+.dot.active{background:#f7b718;transform:scale(1.35);box-shadow:0 0 0 3px #f7b71844}
+@media(prefers-reduced-motion:reduce){.track{transition:none}.scene::before,.spark{animation:none}}
 @media(max-width:520px){.scene{padding-top:18px}.content{padding-top:4px}.letter{padding:20px 15px}.letter p{font-size:20px}.letter h2{font-size:25px}.envelope{min-height:230px}}
 </style>
 </head>
@@ -70,6 +88,24 @@ body{overflow-x:hidden;background:radial-gradient(circle at 50% 10%,#fff8ce 0,#f
     <div class="hint" id="hint">Toca la carta para abrirla 💌</div>
   </main>
 </div>
+
+<section class="gallery" aria-label="Galería de fotos">
+  <h2>Nuestros momentos 🌻</h2>
+  <p class="g-sub">Pequeños recuerdos que hacen florecer el corazón 💛</p>
+  <div class="slider" id="slider">
+    <div class="viewport">
+      <div class="track" id="track">
+        <div class="slide"><div class="ph"><b>🌻</b>Tan Tan en titi</div><img src="foto1.jpeg" alt="Foto 1" onerror="this.remove()"></div>
+        <div class="slide"><div class="ph"><b>💛</b>Tan Tan en Titi 2 </div><img src="foto2.jpeg" alt="Foto 2" onerror="this.remove()"></div>
+        <div class="slide"><div class="ph"><b>✨</b>Tan Tan 7 meses</div><img src="foto3.jpeg" alt="Foto 3" onerror="this.remove()"></div>
+      </div>
+      <button class="arrow prev" id="prev" aria-label="Foto anterior">‹</button>
+      <button class="arrow next" id="next" aria-label="Foto siguiente">›</button>
+    </div>
+    <div class="dots" id="dots" role="tablist"></div>
+  </div>
+</section>
+
 <script>
 const wrap=document.getElementById('envelope');
 const hint=document.getElementById('hint');
@@ -94,6 +130,57 @@ function createPetal(){
   setTimeout(()=>p.remove(),9500);
 }
 setInterval(()=>{if(wrap.classList.contains('open')) createPetal()},700);
+
+/* ===== Slider ===== */
+(function(){
+  const slider=document.getElementById('slider');
+  const track=document.getElementById('track');
+  const dotsBox=document.getElementById('dots');
+  const total=track.children.length;
+  let index=0,timer=null;
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  for(let i=0;i<total;i++){
+    const d=document.createElement('button');
+    d.className='dot'+(i===0?' active':'');
+    d.setAttribute('aria-label','Ir a la foto '+(i+1));
+    d.addEventListener('click',()=>{go(i);restart();});
+    dotsBox.appendChild(d);
+  }
+  const dots=[...dotsBox.children];
+
+  function go(n){
+    index=(n+total)%total;
+    track.style.transform='translateX(-'+(index*100)+'%)';
+    dots.forEach((d,i)=>d.classList.toggle('active',i===index));
+  }
+  function restart(){
+    clearInterval(timer);
+    if(!reduce) timer=setInterval(()=>go(index+1),4500);
+  }
+  document.getElementById('prev').addEventListener('click',()=>{go(index-1);restart();});
+  document.getElementById('next').addEventListener('click',()=>{go(index+1);restart();});
+
+  slider.addEventListener('mouseenter',()=>clearInterval(timer));
+  slider.addEventListener('mouseleave',restart);
+  slider.tabIndex=0;
+  slider.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft'){go(index-1);restart();}
+    if(e.key==='ArrowRight'){go(index+1);restart();}
+  });
+
+  // Deslizar con el dedo
+  let startX=null;
+  slider.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;clearInterval(timer);},{passive:true});
+  slider.addEventListener('touchend',e=>{
+    if(startX===null) return;
+    const dx=e.changedTouches[0].clientX-startX;
+    if(Math.abs(dx)>40) go(index+(dx<0?1:-1));
+    startX=null;restart();
+  });
+
+  restart();
+})();
 </script>
 </body>
 </html>
