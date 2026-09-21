@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Un detalle para ti 🌻</title>
+<style>
+:root{--yellow:#ffd84d;--gold:#f5a623;--green:#3d7a42;--cream:#fff9df;--ink:#493b25}
+*{box-sizing:border-box} body{margin:0;font-family:Georgia,serif;color:var(--ink);background:linear-gradient(#fff8d8,#fffdf2);min-height:100vh;overflow-x:hidden}
+.hero{min-height:100vh;display:grid;place-items:center;padding:30px 18px;position:relative}
+.card{width:min(720px,94vw);background:rgba(255,255,255,.88);border:2px solid #f6cf54;border-radius:28px;padding:38px 28px;text-align:center;box-shadow:0 20px 60px #8f742222;backdrop-filter:blur(6px);z-index:2}
+.badge{display:inline-block;background:#fff0a6;padding:8px 15px;border-radius:999px;font:700 13px Arial,sans-serif;letter-spacing:1px;text-transform:uppercase}
+h1{font-size:clamp(40px,8vw,72px);margin:18px 0 8px;color:#d88a00}
+.subtitle{font:18px Arial,sans-serif;opacity:.8;margin:0 auto 24px;max-width:560px}
+.sunflower{font-size:92px;line-height:1;margin:5px 0 20px;filter:drop-shadow(0 8px 7px #80601d33)}
+textarea{width:100%;min-height:180px;border:2px solid #efd36c;border-radius:18px;padding:18px;font:18px/1.5 Georgia,serif;resize:vertical;background:#fffdf5;color:var(--ink);outline:none}
+textarea:focus{border-color:#e7aa22;box-shadow:0 0 0 4px #ffd84d44}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+button{border:0;border-radius:999px;padding:13px 22px;font-weight:700;cursor:pointer;font-size:15px}
+.primary{background:#e8a51d;color:white}.secondary{background:#fff0a6;color:#76500b}
+#message{margin-top:25px;font-size:22px;line-height:1.55;white-space:pre-wrap}
+footer{font:13px Arial,sans-serif;opacity:.6;margin-top:25px}
+.flower{position:absolute;font-size:40px;animation:float 7s ease-in-out infinite;opacity:.8}
+.f1{left:5%;top:15%}.f2{right:7%;top:22%;animation-delay:1s}.f3{left:12%;bottom:12%;animation-delay:2s}.f4{right:12%;bottom:10%;animation-delay:3s}
+@keyframes float{50%{transform:translateY(-18px) rotate(8deg)}}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<main class="hero">
+  <div class="flower f1">🌻</div><div class="flower f2">🌼</div>
+  <div class="flower f3">🌻</div><div class="flower f4">🌼</div>
+  <section class="card">
+    <div class="badge">Feliz Día de la Primavera 🌼</div>
+    <div class="sunflower">🌻</div>
+    <h1>Un mensaje para ti</h1>
+    <p class="subtitle">Escribe unas palabras y conviértelas en un pequeño detalle lleno de luz.</p>
+    <textarea id="text" placeholder="Escribe aquí tu mensaje..."></textarea>
+    <div class="actions">
+      <button class="primary" onclick="showMessage()">Ver mi mensaje 🌻</button>
+      <button class="secondary" onclick="clearMessage()">Limpiar</button>
+    </div>
+    <div id="message" class="hidden"></div>
+    <footer>Hecho con cariño, flores y un poquito de sol ☀️</footer>
+  </section>
+</main>
+<script>
+function showMessage(){
+  const value=document.getElementById('text').value.trim();
+  const box=document.getElementById('message');
+  if(!value){ box.textContent='Escribe primero tu mensaje 🌻'; box.classList.remove('hidden'); return; }
+  box.textContent=value;
+  box.classList.remove('hidden');
+  box.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function clearMessage(){
+  document.getElementById('text').value='';
+  document.getElementById('message').textContent='';
+  document.getElementById('message').classList.add('hidden');
+}
+</script>
+</body>
+</html>
