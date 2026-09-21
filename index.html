@@ -85,7 +85,7 @@ body{overflow-x:hidden;background:radial-gradient(circle at 50% 10%,#fff8ce 0,#f
         <div class="ribbon">🌻</div>
       </div>
     </div>
-    <div class="hint" id="hint">Toca la carta para abrirla 💌</div>
+    <div class="hint" id="hint">Toca la carta para abrirla 💌 </div>
   </main>
 </div>
 
@@ -95,9 +95,10 @@ body{overflow-x:hidden;background:radial-gradient(circle at 50% 10%,#fff8ce 0,#f
   <div class="slider" id="slider">
     <div class="viewport">
       <div class="track" id="track">
-        <div class="slide"><div class="ph"><b>🌻</b>Tan Tan en titi</div><img src="foto1.jpeg" alt="Foto 1" onerror="this.remove()"></div>
-        <div class="slide"><div class="ph"><b>💛</b>Tan Tan en Titi 2 </div><img src="foto2.jpeg" alt="Foto 2" onerror="this.remove()"></div>
-        <div class="slide"><div class="ph"><b>✨</b>Tan Tan 7 meses</div><img src="foto3.jpeg" alt="Foto 3" onerror="this.remove()"></div>
+        <!-- Reemplaza foto1.jpg, foto2.jpg y foto3.jpg por tus imágenes (misma carpeta que index.html) -->
+        <div class="slide"><div class="ph"><b>🌻</b>Tan Tan en titi</div><img src="foto3.jpeg" alt="Foto 1" onerror="this.remove()"></div>
+        <div class="slide"><div class="ph"><b>💛</b>Tan Tan en Titi 2 </div><img src="foto1.jpeg" alt="Foto 2" onerror="this.remove()"></div>
+        <div class="slide"><div class="ph"><b>✨</b>Tan Tan 7 meses</div><img src="foto2.jpeg" alt="Foto 3" onerror="this.remove()"></div>
       </div>
       <button class="arrow prev" id="prev" aria-label="Foto anterior">‹</button>
       <button class="arrow next" id="next" aria-label="Foto siguiente">›</button>
@@ -113,7 +114,7 @@ function toggleCard(){
   document.body.classList.toggle('opened');
   wrap.classList.toggle('open');
   if(wrap.classList.contains('open')){
-    hint.textContent='Una primavera más... y ahora somos tres. 💛';
+    hint.textContent='Una primavera más... y ahora somos tres. 💛 \n ⬇️⬇️⬇⬇️⬇️⬇⬇️⬇️⬇⬇️⬇️⬇⬇️⬇️';
     for(let i=0;i<24;i++) setTimeout(createPetal,i*90);
   }else hint.textContent='Toca la carta para abrirla 💌';
 }
